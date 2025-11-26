@@ -10,6 +10,7 @@ import { Slider } from '@/components/ui/slider'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
 import type { CheckinForm } from '@/lib/types'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 const checkinSchema = z.object({
   fatigue: z.number().min(1).max(5),
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export function WellnessCheckin({ onComplete, onBack }: Props) {
+  const { t } = useLanguage()
   const { register, handleSubmit, watch, setValue } = useForm<CheckinForm>({
     resolver: zodResolver(checkinSchema),
     defaultValues: { fatigue: 3, sleepQuality: 7, motivation: 7 }
@@ -39,15 +41,15 @@ export function WellnessCheckin({ onComplete, onBack }: Props) {
       {onBack && (
         <Button variant="ghost" onClick={onBack} className="mb-4">
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
+          {t.common.back}
         </Button>
       )}
 
       <Card className="shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
-          <CardTitle className="text-center text-xl">Daily Check-in</CardTitle>
+        <CardHeader className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-t-lg">
+          <CardTitle className="text-center text-xl">{t.wellnessCheckin.title}</CardTitle>
           <CardDescription className="text-slate-400 text-center">
-            Ready to perform?
+            {t.wellnessCheckin.subtitle}
           </CardDescription>
         </CardHeader>
 
@@ -56,11 +58,11 @@ export function WellnessCheckin({ onComplete, onBack }: Props) {
             {/* Fatigue */}
             <div>
               <Label className="text-sm font-medium mb-2 block">
-                Fatigue Level: {fatigue}/5
+                {t.wellnessCheckin.fatigueLabel}: {fatigue}/5
               </Label>
               <div className="flex justify-between text-xs text-slate-400 mb-2">
-                <span>Fresh</span>
-                <span>Exhausted</span>
+                <span>{t.wellnessCheckin.fatigueFresh}</span>
+                <span>{t.wellnessCheckin.fatigueExhausted}</span>
               </div>
               <Slider
                 min={1}
@@ -75,7 +77,7 @@ export function WellnessCheckin({ onComplete, onBack }: Props) {
             {/* Sleep */}
             <div>
               <Label htmlFor="sleepQuality" className="text-sm font-medium mb-2 block">
-                Sleep Quality (1-10)
+                {t.wellnessCheckin.sleepQualityLabel}
               </Label>
               <Input
                 id="sleepQuality"
@@ -90,7 +92,7 @@ export function WellnessCheckin({ onComplete, onBack }: Props) {
             {/* Motivation */}
             <div>
               <Label htmlFor="motivation" className="text-sm font-medium mb-2 block">
-                Motivation (1-10)
+                {t.wellnessCheckin.motivationLabel}
               </Label>
               <Input
                 id="motivation"
@@ -102,8 +104,8 @@ export function WellnessCheckin({ onComplete, onBack }: Props) {
               />
             </div>
 
-            <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800">
-              Submit & Start Training
+            <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 transition-all transform hover:scale-[1.02] active:scale-95">
+              {t.wellnessCheckin.submitButton}
             </Button>
           </form>
         </CardContent>
