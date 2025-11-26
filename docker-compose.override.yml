@@ -2,8 +2,6 @@
 # This file is automatically loaded by docker-compose
 # Use it for local development customizations
 
-version: '3.8'
-
 services:
   app:
     # Enable hot reload by mounting source code
