@@ -1,0 +1,300 @@
+// Prisma Schema for Apex Performance Platform
+// Database: PostgreSQL (Supabase)
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION & USER MANAGEMENT
+// ============================================
+
+enum UserRole {
+  COACH
+  NUTRITIONIST
+  ATHLETE
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  role      UserRole
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships based on role
+  // If Coach
+  athletesCoached      Athlete[]         @relation("CoachToAthlete")
+  trainingBlocksCreated TrainingBlock[]  @relation("CoachCreatedBlocks")
+
+  // If Nutritionist
+  athletesNutrition    Athlete[]         @relation("NutritionistToAthlete")
+  foodItemsCreated     FoodItem[]        @relation("NutritionistCreatedFoods")
+
+  // If Athlete
+  athleteProfile       Athlete?          @relation("UserAthleteProfile")
+
+  @@index([email])
+  @@index([role])
+}
+
+// ============================================
+// ATHLETE PROFILE
+// ============================================
+
+model Athlete {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  coachId       String?
+  nutritionistId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user          User     @relation("UserAthleteProfile", fields: [userId], references: [id], onDelete: Cascade)
+  coach         User?    @relation("CoachToAthlete", fields: [coachId], references: [id])
+  nutritionist  User?    @relation("NutritionistToAthlete", fields: [nutritionistId], references: [id])
+
+  // Data
+  trainingBlocks    TrainingBlock[]
+  wellnessLogs      WellnessLog[]
+  exerciseLogs      ExerciseLog[]
+  mealPlans         MealPlan[]
+  nutritionLogs     DailyNutritionLog[]
+
+  @@index([userId])
+  @@index([coachId])
+  @@index([nutritionistId])
+}
+
+// ============================================
+// WELLNESS / CHECK-IN SYSTEM
+// ============================================
+
+model WellnessLog {
+  id           String   @id @default(uuid())
+  date         DateTime @default(now())
+  athleteId    String
+  fatigue      Int      // 1-5 scale
+  soreness     String[] // Array of body parts
+  motivation   Int      // 1-10 scale
+  sleepQuality Int      // 1-10 scale
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  athlete      Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@index([athleteId, date])
+  @@index([date])
+}
+
+// ============================================
+// TRAINING DOMAIN (RIR/RPE AUTO-REGULATION)
+// ============================================
+
+model Exercise {
+  id           String   @id @default(uuid())
+  name         String
+  targetMuscle String
+  description  String?
+  videoUrl     String?
+  createdAt    DateTime @default(now())
+
+  // Relations
+  workoutExercises WorkoutExercise[]
+  exerciseLogs     ExerciseLog[]
+
+  @@index([name])
+}
+
+model TrainingBlock {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  athleteId   String
+  coachId     String
+  startDate   DateTime?
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  athlete     Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  coach       User     @relation("CoachCreatedBlocks", fields: [coachId], references: [id])
+
+  weeks       Week[]
+
+  @@index([athleteId])
+  @@index([coachId])
+  @@index([isActive])
+}
+
+model Week {
+  id              String        @id @default(uuid())
+  weekNumber      Int
+  trainingBlockId String
+  notes           String?
+  createdAt       DateTime      @default(now())
+
+  trainingBlock   TrainingBlock @relation(fields: [trainingBlockId], references: [id], onDelete: Cascade)
+  workouts        Workout[]
+
+  @@unique([trainingBlockId, weekNumber])
+  @@index([trainingBlockId])
+}
+
+model Workout {
+  id          String   @id @default(uuid())
+  weekId      String
+  dayNumber   Int      // 1-7 (Monday to Sunday)
+  name        String   // e.g., "Leg Day (Hypertrophy)"
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  week        Week     @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  exercises   WorkoutExercise[]
+
+  @@index([weekId])
+}
+
+model WorkoutExercise {
+  id           String   @id @default(uuid())
+  workoutId    String
+  exerciseId   String
+  orderIndex   Int      // For drag-and-drop ordering
+  sets         Int
+  targetReps   String   // e.g., "8-10" or "AMRAP"
+  targetRIR    Int      // Reps In Reserve (0-5)
+  restSeconds  Int
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  workout      Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise     Exercise @relation(fields: [exerciseId], references: [id])
+
+  @@index([workoutId])
+  @@index([exerciseId])
+}
+
+// EXERCISE LOGGING (Progressive Overload Tracking)
+model ExerciseLog {
+  id              String   @id @default(uuid())
+  date            DateTime @default(now())
+  athleteId       String
+  exerciseId      String
+  workoutExerciseId String? // Link to planned workout
+  setNumber       Int
+  weightKg        Float
+  reps            Int
+  actualRIR       Int      // Athlete's reported RIR
+  rpe             Int?     // Optional RPE (1-10)
+  notes           String?
+
+  // Progressive Overload Tracking
+  previousLogId   String?  // Reference to previous session's log
+
+  athlete         Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  exercise        Exercise @relation(fields: [exerciseId], references: [id])
+
+  @@index([athleteId, exerciseId, date])
+  @@index([date])
+}
+
+// ============================================
+// NUTRITION DOMAIN (EXCHANGE PORTION SYSTEM)
+// ============================================
+
+enum FoodGroup {
+  CARB
+  PROTEIN
+  FAT
+  VEGGIE
+  FRUIT
+  DAIRY
+}
+
+model FoodItem {
+  id              String    @id @default(uuid())
+  group           FoodGroup
+  name            String
+  portionSize     String    // e.g., "130g", "1/2 unit"
+  description     String?
+  createdBy       String    // Nutritionist who created it
+  isPublic        Boolean   @default(false) // Public database or private
+  createdAt       DateTime  @default(now())
+
+  nutritionist    User      @relation("NutritionistCreatedFoods", fields: [createdBy], references: [id])
+
+  @@index([group])
+  @@index([isPublic])
+  @@index([createdBy])
+}
+
+model MealPlan {
+  id          String   @id @default(uuid())
+  name        String
+  athleteId   String
+  startDate   DateTime
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  athlete     Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  meals       Meal[]
+
+  @@index([athleteId])
+  @@index([isActive])
+}
+
+model Meal {
+  id          String   @id @default(uuid())
+  mealPlanId  String
+  mealName    String   // e.g., "Breakfast", "Lunch", "Dinner"
+  orderIndex  Int
+  createdAt   DateTime @default(now())
+
+  mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  slots       MealSlot[]
+
+  @@index([mealPlanId])
+}
+
+// Meal Slot Definition (e.g., "2x CARB slots")
+model MealSlot {
+  id          String    @id @default(uuid())
+  mealId      String
+  foodGroup   FoodGroup
+  quantity    Int       // Number of portions required
+  createdAt   DateTime  @default(now())
+
+  meal        Meal      @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@index([mealId])
+}
+
+// Daily Nutrition Logging
+model DailyNutritionLog {
+  id          String   @id @default(uuid())
+  date        DateTime @default(now())
+  athleteId   String
+  mealName    String   // e.g., "Breakfast"
+  foodGroup   FoodGroup
+  foodItemId  String?  // Optional - which specific food was chosen
+  portionsConsumed Int
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  athlete     Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@index([athleteId, date])
+  @@index([date])
+}

@@ -1,0 +1,42 @@
+# Development Dockerfile
+FROM node:20-slim AS base
+
+RUN apt-get update && apt-get install -y \
+    openssl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies only when needed
+FROM base AS deps
+WORKDIR /app
+
+# Copy package files AND prisma schema (needed for postinstall)
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma
+
+# Install dependencies
+RUN npm ci
+
+# Development image
+FROM base AS development
+WORKDIR /app
+
+# Copy node_modules from deps
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy application code
+COPY . .
+
+# Generate Prisma Client (in case schema changed)
+RUN npx prisma generate
+
+# Expose port
+EXPOSE 3000
+
+# Set environment to development
+ENV NODE_ENV=development
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Start development server
+CMD ["npm", "run", "dev"]
