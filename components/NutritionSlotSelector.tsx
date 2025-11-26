@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FoodGroup, PortionExchange } from '../types';
 import { FOOD_DATABASE } from '../services/mockDatabase';
 import { Plus, Check, ChevronRight } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface Props {
   mealName: string;
@@ -20,6 +21,7 @@ const GROUP_COLORS: Record<string, string> = {
 };
 
 export const NutritionSlotSelector: React.FC<Props> = ({ mealName, requiredSlots, consumedSlots, onAddSlot }) => {
+  const { t } = useLanguage();
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   const handleSlotClick = (group: string) => {
@@ -31,15 +33,27 @@ export const NutritionSlotSelector: React.FC<Props> = ({ mealName, requiredSlots
     setSelectedGroup(null);
   };
 
+  const getMealTranslation = (meal: string) => {
+    const mealMap: Record<string, string> = {
+      'Breakfast': t.nutrition.breakfast,
+      'Morning Snack': t.nutrition.morningSnack,
+      'Lunch': t.nutrition.lunch,
+      'Afternoon Snack': t.nutrition.afternoonSnack,
+      'Dinner': t.nutrition.dinner,
+      'Evening Snack': t.nutrition.eveningSnack,
+    };
+    return mealMap[meal] || meal;
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
-      <h3 className="font-semibold text-lg text-slate-800 mb-3">{mealName}</h3>
-      
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4 transition-all hover:shadow-md">
+      <h3 className="font-semibold text-lg text-slate-800 mb-3">{getMealTranslation(mealName)}</h3>
+
       <div className="space-y-3">
         {Object.entries(requiredSlots).map(([group, count]) => {
           const filled = (consumedSlots[group] as number) || 0;
           const slots = [];
-          
+
           for (let i = 0; i < count; i++) {
             const isFilled = i < filled;
             slots.push(
@@ -48,10 +62,10 @@ export const NutritionSlotSelector: React.FC<Props> = ({ mealName, requiredSlots
                 onClick={() => !isFilled && handleSlotClick(group)}
                 disabled={isFilled}
                 className={`
-                  w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all
-                  ${isFilled 
-                    ? 'bg-slate-800 border-slate-800 text-white' 
-                    : 'border-slate-300 hover:border-slate-400 text-slate-400 bg-slate-50'}
+                  w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all transform
+                  ${isFilled
+                    ? 'bg-slate-800 border-slate-800 text-white scale-100'
+                    : 'border-slate-300 hover:border-slate-400 hover:scale-110 text-slate-400 bg-slate-50'}
                 `}
               >
                 {isFilled ? <Check size={14} /> : <Plus size={14} />}
@@ -75,23 +89,23 @@ export const NutritionSlotSelector: React.FC<Props> = ({ mealName, requiredSlots
       {/* Food Database Modal/Drawer Simulation */}
       {selectedGroup && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-t-xl sm:rounded-xl w-full max-w-md max-h-[80vh] overflow-y-auto">
-            <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white">
-              <h4 className="font-bold">Select {selectedGroup} Source</h4>
-              <button onClick={() => setSelectedGroup(null)} className="text-sm text-slate-500">Close</button>
+          <div className="bg-white rounded-t-xl sm:rounded-xl w-full max-w-md max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-300">
+            <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10">
+              <h4 className="font-bold">{t.nutrition.addFood} ({selectedGroup})</h4>
+              <button onClick={() => setSelectedGroup(null)} className="text-sm text-slate-500 hover:text-slate-700 transition-colors">{t.common.close}</button>
             </div>
             <div className="p-2">
               {FOOD_DATABASE.filter(f => f.group === selectedGroup).map(food => (
                 <button
                   key={food.id}
                   onClick={() => confirmFoodSelection(food)}
-                  className="w-full text-left p-3 hover:bg-slate-50 rounded-lg flex justify-between items-center group"
+                  className="w-full text-left p-3 hover:bg-slate-50 rounded-lg flex justify-between items-center group transition-all"
                 >
                   <div>
                     <div className="font-medium text-slate-900">{food.name}</div>
-                    <div className="text-sm text-slate-500">Portion: {food.quantity}</div>
+                    <div className="text-sm text-slate-500">{t.nutrition.consumed}: {food.quantity}</div>
                   </div>
-                  <ChevronRight className="text-slate-300 group-hover:text-slate-600" size={20} />
+                  <ChevronRight className="text-slate-300 group-hover:text-slate-600 transition-colors" size={20} />
                 </button>
               ))}
             </div>
