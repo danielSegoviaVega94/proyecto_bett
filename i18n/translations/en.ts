@@ -252,5 +252,49 @@ export const en = {
     keepItUp: 'Keep it up!',
     almostThere: 'Almost there!',
     youCanDoIt: 'You can do it!',
+  },
+
+  // Landing Page
+  landing: {
+    // Hero Section
+    heroTitle1: 'Professional Coaching,',
+    heroTitle2: 'Data-Driven Results',
+    heroSubtitle: 'The only platform built on RIR/RPE auto-regulation and Exchange Portion nutrition methodology. Designed for coaches, nutritionists, and athletes who demand precision.',
+    getStartedFree: 'Get Started Free',
+
+    // Features Section
+    builtForEveryRole: 'Built for Every Role',
+
+    // Coach Features
+    forCoaches: 'For Coaches',
+    forCoachesDesc: 'Create RIR/RPE-based training blocks, monitor athlete readiness, and track progressive overload.',
+    coachFeature1: 'Drag-and-drop workout builder',
+    coachFeature2: 'Block periodization tools',
+    coachFeature3: 'Real-time fatigue risk alerts',
+    coachFeature4: 'Progressive overload tracking',
+
+    // Nutritionist Features
+    forNutritionists: 'For Nutritionists',
+    forNutritionistsDesc: 'Manage food exchange databases and create slot-based meal plans (no calorie counting).',
+    nutritionistFeature1: 'Exchange portion system',
+    nutritionistFeature2: 'Custom food databases',
+    nutritionistFeature3: 'Meal formula templates',
+    nutritionistFeature4: 'Adherence analytics',
+
+    // Athlete Features
+    forAthletes: 'For Athletes',
+    forAthletesDesc: 'Mobile-first logging with daily wellness check-ins and AI-powered recommendations.',
+    athleteFeature1: 'Quick RIR/RPE logging',
+    athleteFeature2: 'Nutrition slot tracker',
+    athleteFeature3: 'Daily readiness check-in',
+    athleteFeature4: 'AI session adjustments',
+
+    // CTA Section
+    ctaTitle: 'Ready to Elevate Your Performance?',
+    ctaSubtitle: 'Join coaches and athletes who trust data-driven methodologies over generic fitness apps.',
+    startFreeTrial: 'Start Your Free Trial',
+
+    // Footer
+    copyright: '© 2025 Apex Performance Platform. All rights reserved.',
   }
 };

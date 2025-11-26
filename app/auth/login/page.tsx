@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dumbbell } from 'lucide-react'
 import { useLanguage } from '@/i18n/LanguageContext'
+import { LanguageSelector } from '@/components/LanguageSelector'
 
 export default function LoginPage() {
   const { t } = useLanguage()
@@ -41,7 +42,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md relative">
+        <div className="absolute top-4 right-4">
+          <LanguageSelector />
+        </div>
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-blue-100 p-3 rounded-xl">

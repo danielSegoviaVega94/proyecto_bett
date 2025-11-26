@@ -252,5 +252,49 @@ export const es = {
     keepItUp: '¡Sigue así!',
     almostThere: '¡Ya casi!',
     youCanDoIt: '¡Tú puedes!',
+  },
+
+  // Landing Page
+  landing: {
+    // Hero Section
+    heroTitle1: 'Coaching Profesional,',
+    heroTitle2: 'Resultados Basados en Datos',
+    heroSubtitle: 'La única plataforma construida sobre metodologías de auto-regulación RIR/RPE y nutrición por sistema de intercambio de porciones. Diseñada para coaches, nutricionistas y atletas que exigen precisión.',
+    getStartedFree: 'Comenzar Gratis',
+
+    // Features Section
+    builtForEveryRole: 'Diseñada para Cada Rol',
+
+    // Coach Features
+    forCoaches: 'Para Entrenadores',
+    forCoachesDesc: 'Crea bloques de entrenamiento basados en RIR/RPE, monitorea la preparación de atletas y rastrea la sobrecarga progresiva.',
+    coachFeature1: 'Constructor de entrenamientos drag-and-drop',
+    coachFeature2: 'Herramientas de periodización por bloques',
+    coachFeature3: 'Alertas de riesgo de fatiga en tiempo real',
+    coachFeature4: 'Rastreo de sobrecarga progresiva',
+
+    // Nutritionist Features
+    forNutritionists: 'Para Nutricionistas',
+    forNutritionistsDesc: 'Gestiona bases de datos de intercambio de alimentos y crea planes de comidas basados en porciones (sin contar calorías).',
+    nutritionistFeature1: 'Sistema de intercambio de porciones',
+    nutritionistFeature2: 'Bases de datos personalizadas de alimentos',
+    nutritionistFeature3: 'Plantillas de fórmulas de comidas',
+    nutritionistFeature4: 'Análisis de adherencia',
+
+    // Athlete Features
+    forAthletes: 'Para Atletas',
+    forAthletesDesc: 'Registro móvil con check-ins diarios de bienestar y recomendaciones impulsadas por IA.',
+    athleteFeature1: 'Registro rápido de RIR/RPE',
+    athleteFeature2: 'Rastreador de porciones nutricionales',
+    athleteFeature3: 'Check-in diario de preparación',
+    athleteFeature4: 'Ajustes de sesión con IA',
+
+    // CTA Section
+    ctaTitle: '¿Listo para Elevar tu Rendimiento?',
+    ctaSubtitle: 'Únete a entrenadores y atletas que confían en metodologías basadas en datos en lugar de aplicaciones genéricas de fitness.',
+    startFreeTrial: 'Comienza tu Prueba Gratuita',
+
+    // Footer
+    copyright: '© 2025 Plataforma Apex Performance. Todos los derechos reservados.',
   }
 };
