@@ -7,7 +7,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f app",
+    "docker:build": "docker-compose up -d --build",
+    "docker:reset": "docker-compose down -v && docker-compose up -d --build",
+    "docker:db": "docker-compose up -d postgres",
+    "docker:prisma:push": "docker-compose exec app npx prisma db push",
+    "docker:prisma:studio": "docker-compose exec app npx prisma studio",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",

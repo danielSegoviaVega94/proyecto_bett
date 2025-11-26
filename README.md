@@ -80,6 +80,33 @@ apex-performance-platform/
 
 ## 🚀 Getting Started
 
+### **🐳 QUICK START WITH DOCKER (Recommended)**
+
+**Prerequisites:** Docker Desktop installed
+- Windows/Mac: https://www.docker.com/products/docker-desktop
+- Linux: `curl -fsSL https://get.docker.com | sh`
+
+**Start in 3 commands:**
+```bash
+# 1. Start everything (database + app)
+make up
+# or: npm run docker:up
+
+# 2. Setup database
+make db-push
+# or: npm run docker:prisma:push
+
+# 3. Open http://localhost:3000/demo
+```
+
+✅ **That's it!** No need to install PostgreSQL or configure Supabase.
+
+📖 **Full Docker Guide:** See [DOCKER.md](./DOCKER.md)
+
+---
+
+### **📦 Manual Setup (Without Docker)**
+
 ### Prerequisites
 - Node.js 18+ and npm
 - Supabase account (free tier works)
