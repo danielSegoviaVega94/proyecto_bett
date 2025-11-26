@@ -28,9 +28,11 @@ services:
     container_name: apex-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@apex.local
+      PGADMIN_DEFAULT_EMAIL: admin@apex.test
       PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_CONFIG_SERVER_MODE: 'False'
+      ALLOW_SPECIAL_EMAIL_DOMAINS: '.local'
+    # ...
     ports:
       - "5050:80"
     volumes:
