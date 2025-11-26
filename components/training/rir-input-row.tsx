@@ -2,6 +2,7 @@
 
 import { Input } from '@/components/ui/input'
 import type { WorkoutExercise } from '@/lib/types'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 interface Props {
   exercise: WorkoutExercise
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export function RIRInputRow({ exercise, setIndex }: Props) {
+  const { t } = useLanguage()
   // Mock previous data for progressive overload context
   const prevWeight = 100
   const prevReps = 8
@@ -23,26 +25,26 @@ export function RIRInputRow({ exercise, setIndex }: Props) {
       <div className="col-span-11 flex flex-col gap-2">
         {/* Previous History Context */}
         <div className="text-xs text-slate-400 flex justify-between px-1">
-          <span>Prev: {prevWeight}kg x {prevReps} @ {prevRIR} RIR</span>
-          <span className="text-blue-600 font-medium">Target: {exercise.targetRIR} RIR</span>
+          <span>{t.training.previous}: {prevWeight}{t.training.kg} x {prevReps} @ {prevRIR} RIR</span>
+          <span className="text-blue-600 font-medium">{t.training.target}: {exercise.targetRIR} RIR</span>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           <div className="relative">
             <Input
               type="number"
-              placeholder="kg"
+              placeholder={t.training.kg}
               className="text-center font-medium"
             />
             <span className="absolute right-2 top-2.5 text-[10px] text-slate-400 pointer-events-none">
-              KG
+              {t.training.kg.toUpperCase()}
             </span>
           </div>
 
           <div className="relative">
             <Input
               type="number"
-              placeholder="Reps"
+              placeholder={t.training.repsPlaceholder}
               className="text-center font-medium"
             />
           </div>
@@ -50,7 +52,7 @@ export function RIRInputRow({ exercise, setIndex }: Props) {
           <div className="relative">
             <Input
               type="number"
-              placeholder="RIR"
+              placeholder={t.training.rirPlaceholder}
               defaultValue={exercise.targetRIR}
               className={`text-center font-bold ${
                 exercise.targetRIR < 2
@@ -59,7 +61,7 @@ export function RIRInputRow({ exercise, setIndex }: Props) {
               }`}
             />
             <span className="absolute right-2 top-2.5 text-[10px] opacity-50 pointer-events-none">
-              RIR
+              {t.training.rirPlaceholder.toUpperCase()}
             </span>
           </div>
         </div>

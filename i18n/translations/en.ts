@@ -37,6 +37,25 @@ export const en = {
     athleteDescription: 'Mobile logging view',
   },
 
+  // Auth Pages
+  auth: {
+    welcomeBack: 'Welcome Back',
+    signInSubtitle: 'Sign in to your Apex Performance account',
+    email: 'Email',
+    password: 'Password',
+    signingIn: 'Signing in...',
+    signIn: 'Sign In',
+    dontHaveAccount: "Don't have an account?",
+    signUp: 'Sign up',
+    tryDemo: 'Try Demo Version',
+    createAccount: 'Create Account',
+    joinPlatform: 'Join Apex Performance Platform',
+    fullName: 'Full Name',
+    iAmA: 'I am a...',
+    creatingAccount: 'Creating account...',
+    alreadyHaveAccount: 'Already have an account?',
+  },
+
   // Roles
   roles: {
     coach: 'Coach',
@@ -127,6 +146,8 @@ export const en = {
     repsPlaceholder: 'Reps',
     weightPlaceholder: 'Weight',
     rirPlaceholder: 'RIR',
+    previous: 'Prev',
+    target: 'Target',
   },
 
   // Nutrition
@@ -146,6 +167,8 @@ export const en = {
     chefThinking: 'Chef is thinking...',
     slotConsumed: 'Slot consumed',
     addSlot: '+ Slot',
+    selectSource: 'Select',
+    portion: 'Portion',
   },
 
   // AI Messages
@@ -191,12 +214,12 @@ export const en = {
 
   // Food Groups
   foodGroups: {
-    carbs: 'Carbohydrates',
-    protein: 'Protein',
-    fats: 'Fats',
-    vegetables: 'Vegetables',
-    fruits: 'Fruits',
-    dairy: 'Dairy',
+    CARB: 'Carbohydrates',
+    PROTEIN: 'Protein',
+    FAT: 'Fats',
+    VEGGIE: 'Vegetables',
+    FRUIT: 'Fruits',
+    DAIRY: 'Dairy',
   },
 
   // Workout Types

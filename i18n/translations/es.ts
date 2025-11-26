@@ -37,6 +37,25 @@ export const es = {
     athleteDescription: 'Vista de registro móvil',
   },
 
+  // Auth Pages
+  auth: {
+    welcomeBack: 'Bienvenido de Vuelta',
+    signInSubtitle: 'Inicia sesión en tu cuenta de Apex Performance',
+    email: 'Correo Electrónico',
+    password: 'Contraseña',
+    signingIn: 'Iniciando sesión...',
+    signIn: 'Iniciar Sesión',
+    dontHaveAccount: '¿No tienes una cuenta?',
+    signUp: 'Registrarse',
+    tryDemo: 'Probar Versión Demo',
+    createAccount: 'Crear Cuenta',
+    joinPlatform: 'Únete a la Plataforma Apex Performance',
+    fullName: 'Nombre Completo',
+    iAmA: 'Soy un...',
+    creatingAccount: 'Creando cuenta...',
+    alreadyHaveAccount: '¿Ya tienes una cuenta?',
+  },
+
   // Roles
   roles: {
     coach: 'Entrenador',
@@ -127,6 +146,8 @@ export const es = {
     repsPlaceholder: 'Reps',
     weightPlaceholder: 'Peso',
     rirPlaceholder: 'RIR',
+    previous: 'Previo',
+    target: 'Objetivo',
   },
 
   // Nutrition
@@ -146,6 +167,8 @@ export const es = {
     chefThinking: 'El chef está pensando...',
     slotConsumed: 'Porción consumida',
     addSlot: '+ Porción',
+    selectSource: 'Seleccionar',
+    portion: 'Porción',
   },
 
   // AI Messages (Chilean flavor)
@@ -189,14 +212,14 @@ export const es = {
     hr: 'hr',
   },
 
-  // Food Groups (Chilean terms)
+  // Food Groups
   foodGroups: {
-    carbs: 'Carbohidratos',
-    protein: 'Proteínas',
-    fats: 'Grasas',
-    vegetables: 'Verduras',
-    fruits: 'Frutas',
-    dairy: 'Lácteos',
+    CARB: 'Carbohidratos',
+    PROTEIN: 'Proteínas',
+    FAT: 'Grasas',
+    VEGGIE: 'Verduras',
+    FRUIT: 'Frutas',
+    DAIRY: 'Lácteos',
   },
 
   // Workout Types

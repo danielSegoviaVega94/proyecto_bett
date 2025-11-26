@@ -9,8 +9,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dumbbell } from 'lucide-react'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export default function LoginPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -46,15 +48,15 @@ export default function LoginPage() {
               <Dumbbell className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl">{t.auth.welcomeBack}</CardTitle>
           <CardDescription>
-            Sign in to your Apex Performance account
+            {t.auth.signInSubtitle}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t.auth.email}</Label>
               <Input
                 id="email"
                 type="email"
@@ -65,7 +67,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t.auth.password}</Label>
               <Input
                 id="password"
                 type="password"
@@ -82,20 +84,20 @@ export default function LoginPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? t.auth.signingIn : t.auth.signIn}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-slate-600">Don't have an account? </span>
+            <span className="text-slate-600">{t.auth.dontHaveAccount} </span>
             <Link href="/auth/signup" className="text-blue-600 hover:underline font-medium">
-              Sign up
+              {t.auth.signUp}
             </Link>
           </div>
 
           <div className="mt-4 text-center">
             <Link href="/demo" className="text-sm text-slate-500 hover:text-slate-700">
-              Try Demo Version
+              {t.auth.tryDemo}
             </Link>
           </div>
         </CardContent>

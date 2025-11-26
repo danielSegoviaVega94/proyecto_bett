@@ -10,8 +10,10 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dumbbell } from 'lucide-react'
 import { UserRole } from '@/lib/types'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export default function SignupPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,15 +58,15 @@ export default function SignupPage() {
               <Dumbbell className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Create Account</CardTitle>
+          <CardTitle className="text-2xl">{t.auth.createAccount}</CardTitle>
           <CardDescription>
-            Join Apex Performance Platform
+            {t.auth.joinPlatform}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">{t.auth.fullName}</Label>
               <Input
                 id="name"
                 type="text"
@@ -76,7 +78,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t.auth.email}</Label>
               <Input
                 id="email"
                 type="email"
@@ -88,7 +90,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t.auth.password}</Label>
               <Input
                 id="password"
                 type="password"
@@ -100,16 +102,16 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="role">I am a...</Label>
+              <Label htmlFor="role">{t.auth.iAmA}</Label>
               <select
                 id="role"
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
               >
-                <option value={UserRole.ATHLETE}>Athlete</option>
-                <option value={UserRole.COACH}>Coach</option>
-                <option value={UserRole.NUTRITIONIST}>Nutritionist</option>
+                <option value={UserRole.ATHLETE}>{t.roles.athlete}</option>
+                <option value={UserRole.COACH}>{t.roles.coach}</option>
+                <option value={UserRole.NUTRITIONIST}>{t.roles.nutritionist}</option>
               </select>
             </div>
 
@@ -120,14 +122,14 @@ export default function SignupPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Creating account...' : 'Sign Up'}
+              {loading ? t.auth.creatingAccount : t.auth.signUp}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-slate-600">Already have an account? </span>
+            <span className="text-slate-600">{t.auth.alreadyHaveAccount} </span>
             <Link href="/auth/login" className="text-blue-600 hover:underline font-medium">
-              Sign in
+              {t.auth.signIn}
             </Link>
           </div>
         </CardContent>

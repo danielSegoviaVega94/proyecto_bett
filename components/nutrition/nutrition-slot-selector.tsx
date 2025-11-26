@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Plus, Check, ChevronRight } from 'lucide-react'
 import { FoodGroup, type FoodItem } from '@/lib/types'
 import { MOCK_FOOD_DATABASE } from '@/lib/mock-data'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 interface Props {
   mealName: string
@@ -24,6 +25,7 @@ const GROUP_COLORS: Record<string, string> = {
 }
 
 export function NutritionSlotSelector({ mealName, requiredSlots, consumedSlots, onAddSlot }: Props) {
+  const { t } = useLanguage()
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
 
   const confirmFoodSelection = (food: FoodItem) => {
@@ -65,7 +67,7 @@ export function NutritionSlotSelector({ mealName, requiredSlots, consumedSlots, 
             return (
               <div key={group} className="flex items-center justify-between">
                 <span className={`px-2 py-1 rounded text-xs font-bold ${GROUP_COLORS[group] || 'bg-gray-100'}`}>
-                  {group}
+                  {t.foodGroups[group as keyof typeof t.foodGroups] || group}
                 </span>
                 <div className="flex gap-2">
                   {slots}
@@ -87,13 +89,15 @@ export function NutritionSlotSelector({ mealName, requiredSlots, consumedSlots, 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white">
-              <h4 className="font-bold">Select {selectedGroup} Source</h4>
+              <h4 className="font-bold">
+                {t.nutrition.selectSource} {t.foodGroups[selectedGroup as keyof typeof t.foodGroups] || selectedGroup}
+              </h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedGroup(null)}
               >
-                Close
+                {t.common.close}
               </Button>
             </div>
             <div className="p-2">
@@ -105,7 +109,7 @@ export function NutritionSlotSelector({ mealName, requiredSlots, consumedSlots, 
                 >
                   <div>
                     <div className="font-medium text-slate-900">{food.name}</div>
-                    <div className="text-sm text-slate-500">Portion: {food.portionSize}</div>
+                    <div className="text-sm text-slate-500">{t.nutrition.portion}: {food.portionSize}</div>
                   </div>
                   <ChevronRight className="text-slate-300 group-hover:text-slate-600" size={20} />
                 </button>
